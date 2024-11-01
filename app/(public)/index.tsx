@@ -3,15 +3,13 @@ import { api } from "@/convex/_generated/api";
 import { useOAuth } from "@clerk/clerk-expo";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { useQuery } from "convex/react";
+import { router } from "expo-router";
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 const loginImage = require("@/assets/images/login.png");
 
 export default function Index() {
   const { startOAuthFlow } = useOAuth({ strategy: "oauth_facebook" });
   const { startOAuthFlow: startGoogleOAuthFlow } = useOAuth({ strategy: "oauth_google" });
-
-  const data = useQuery(api.users.getAllUsers);
-  console.log(data);
 
   const handleFacebookLogin = async () => {
     try {
@@ -67,7 +65,7 @@ export default function Index() {
             <Text style={styles.loginButtonSubtitle}>You can browse Threads without a profile, but won't be able to post, interact or get personalised recommendations.</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => router.replace("(auth)/(tabs)")}>
             <Text style={styles.switchAccountButtonText}>Switch accounts</Text>
           </TouchableOpacity>
           <TouchableOpacity>
