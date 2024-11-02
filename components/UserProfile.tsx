@@ -3,6 +3,7 @@ import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { useUserProfile } from "@/hooks/useUserProfile";
 import { useQuery } from "convex/react";
+import { Link, router } from "expo-router";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 type UserProfileProps = {
@@ -24,7 +25,7 @@ const UserProfile = ({ userId }: UserProfileProps) => {
           </Text>
           <Text style={styles.email}>{profile?.email}</Text>
         </View>
-        <Image source={{ uri: profile?.imageUrl }} style={styles.image} />
+        <Image source={{ uri: profile?.imageUrl! }} style={styles.image} />
       </View>
       <Text style={styles.bio}>{profile?.bio || "No bio"}</Text>
       <Text>
@@ -33,9 +34,16 @@ const UserProfile = ({ userId }: UserProfileProps) => {
       <View style={styles.buttonRow}>
         {isSelf && (
           <>
-            <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}>Edit Profile</Text>
-            </TouchableOpacity>
+            <Link
+              href={`/(modal)/edit-profile?biostring=${profile?.bio ? encodeURIComponent(profile?.bio) : ""}&linkstring=${profile?.websiteUrl ? encodeURIComponent(profile?.websiteUrl) : ""}&userId=${
+                profile?._id
+              }&imageUrl=${profile?.imageUrl ? encodeURIComponent(profile?.imageUrl) : ""}`}
+              asChild
+            >
+              <TouchableOpacity style={styles.button}>
+                <Text style={styles.buttonText}>Edit Profile</Text>
+              </TouchableOpacity>
+            </Link>
             <TouchableOpacity style={styles.button}>
               <Text style={styles.buttonText}>Share Profile</Text>
             </TouchableOpacity>

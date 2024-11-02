@@ -20,7 +20,7 @@ if (!publishableKey) {
   throw new Error("Missing Publishable Key. Please set EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY in your .env");
 }
 
-// const routingInstrumentation = new Sentry.ReactNavigationInstrumentation();
+const routingInstrumentation = new Sentry.ReactNavigationInstrumentation();
 
 Sentry.init({
   dsn: process.env.EXPO_PUBLIC_SENTRY_DSN,
@@ -88,13 +88,13 @@ const InitialLayout = () => {
 };
 
 const RootLayoutNav = () => {
-  // const ref = useNavigationContainerRef();
+  const ref = useNavigationContainerRef();
 
-  // useEffect(() => {
-  //   if (ref) {
-  //     routingInstrumentation.registerNavigationContainer(ref);
-  //   }
-  // }, [ref]);
+  useEffect(() => {
+    if (ref) {
+      routingInstrumentation.registerNavigationContainer(ref);
+    }
+  }, [ref]);
 
   return (
     <ClerkProvider publishableKey={publishableKey!} tokenCache={tokenCache}>
